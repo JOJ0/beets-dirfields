@@ -13,7 +13,6 @@
 # included in all copies or substantial portions of the Software.
 
 import os
-import sys
 from beets.importer import SingletonImportTask
 from beets.plugins import BeetsPlugin
 
@@ -24,7 +23,7 @@ class DirFieldsPlugin(BeetsPlugin):
         self.import_stages = [self.stage]
 
     def stage(self, config, task):
-        highest_level = sys.maxint
+        highest_level = float('inf')
         levels = []
         if 'levels' in self.config and self.config['levels'].get():
             level_split = str(self.config['levels'].get()).split(',')
