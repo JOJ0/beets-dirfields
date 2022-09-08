@@ -56,8 +56,8 @@ class DirFieldsPlugin(BeetsPlugin):
             while path and len(path) > 0:
                 path, file_system_object = os.path.split(path)
                 if not file_system_object or len(file_system_object) == 0:
-                    file_system_object = path.replace(os.path.sep, '')
-                    path = ''
+                    file_system_object = b''
+                    path = b''
                 dirs.append(file_system_object)
             dirs.reverse()
             for idx, dir_name in enumerate(dirs):
