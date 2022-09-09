@@ -13,7 +13,6 @@
 # included in all copies or substantial portions of the Software.
 
 import os
-import sys
 from beets.importer import SingletonImportTask
 from beets.plugins import BeetsPlugin
 
@@ -24,7 +23,7 @@ class DirFieldsPlugin(BeetsPlugin):
         self.import_stages = [self.stage]
 
     def stage(self, config, task):
-        highest_level = sys.maxint
+        highest_level = float('inf')
         levels = []
         if 'levels' in self.config and self.config['levels'].get():
             level_split = str(self.config['levels'].get()).split(',')
@@ -57,8 +56,8 @@ class DirFieldsPlugin(BeetsPlugin):
             while path and len(path) > 0:
                 path, file_system_object = os.path.split(path)
                 if not file_system_object or len(file_system_object) == 0:
-                    file_system_object = path.replace(os.path.sep, '')
-                    path = ''
+                    file_system_object = b''
+                    path = b''
                 dirs.append(file_system_object)
             dirs.reverse()
             for idx, dir_name in enumerate(dirs):
