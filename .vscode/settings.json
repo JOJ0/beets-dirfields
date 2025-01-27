@@ -1,0 +1,7 @@
+{
+    "vim.textwidth":88, 
+    "pylint.args": [
+        "--max-line-length=88",
+        "--disable=protected-access,unused-argument,missing-function-docstring,missing-class-docstring"
+    ]
+}
