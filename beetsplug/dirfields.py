@@ -51,14 +51,29 @@ class DirFieldsPlugin(BeetsPlugin):
         items = [task.item] if isinstance(task, SingletonImportTask) else task.items + [task.album]
 
         for item in items:
-            path = os.path.normpath(item.path)
+            # On reimports prevent overwriting original path.
+            # top-most dir check should suffice but for newer plugin versions or
+            # manually set dirs attributes, additionally check for dirs.
+            if "dirs" in item or "dir1" in item:
+                self._log.info(
+                    "Preserving dirfields attributes of reimported item {}", item.id
+                )
+                continue
+
             dirs = []
+            path = os.path.normpath(item.path)
+            # Save the full path in a similarily named attribute
+            item["dirs"] = path
+
+            # Collect path parts
             while path and len(path) > 0:
                 path, file_system_object = os.path.split(path)
                 if not file_system_object or len(file_system_object) == 0:
-                    file_system_object = b''
-                    path = b''
+                    file_system_object = b""
+                    path = b""
                 dirs.append(file_system_object)
+
+            # Save path parts to item attributes
             dirs.reverse()
             for idx, dir_name in enumerate(dirs):
                 if idx >= highest_level or idx in levels:
